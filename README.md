@@ -4,6 +4,10 @@
 
 純靜態網站（HTML + CSS + 原生 JS），可直接放在 GitHub Pages，**不需要伺服器、不需要資料庫、不需要帳號**。
 
+**線上版：https://tyhcch1234.github.io/livepoll/**
+
+![投影畫面預覽](preview.png)
+
 ## 功能
 
 | 功能 | 說明 |
