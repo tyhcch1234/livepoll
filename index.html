@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LivePoll · 即時互動投票</title>
+<meta name="description" content="像 Mentimeter 一樣的即時投票：掃 QR code 回答，大螢幕即時顯示所有人的回應。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%237c5cff'/%3E%3Cpath d='M9 20l4.5-9L18 20l5-10' stroke='%23fff' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="topbar">
+    <a class="brand" href="index.html"><span class="dot">▮</span>LivePoll <small>即時互動投票</small></a>
+    <a class="btn small ghost" href="#join">用手機加入 →</a>
+  </header>
+
+  <main class="hero">
+    <section>
+      <span class="pill">免登入 · 即開即用 · 手機掃碼作答</span>
+      <h1>問一個問題，<br>全場答案<em>即時</em>出現在大螢幕上。</h1>
+      <p class="lead">建立問題後，把 QR code 投影出來。觀眾掃碼、輸入回應，結果會在投影畫面同步更新 — 文字雲、選擇題、開放回答、1–5 星評分都支援。</p>
+      <ul class="feats">
+        <li><span class="ico">📱</span><span><b>掃 QR 就能回答</b> — 不用安裝 App、不用註冊帳號。</span></li>
+        <li><span class="ico">⚡</span><span><b>WebSocket 即時同步</b> — 送出後不足一秒就出現在螢幕上。</span></li>
+        <li><span class="ico">🎨</span><span><b>四種題型</b> — 文字雲、選擇題、開放回答、五星評分。</span></li>
+        <li><span class="ico">📊</span><span><b>一鍵匯出 CSV</b> — 課後、會後直接帶走原始回應。</span></li>
+      </ul>
+    </section>
+
+    <section class="card builder">
+      <h2>建立新投票</h2>
+      <p class="sub">填好問題，按下建立就會產生 QR code 與加入代碼。</p>
+
+      <label class="field">
+        <span>你的問題</span>
+        <input class="input" id="q" maxlength="180" placeholder="例如：用一個詞形容今天的課堂" autocomplete="off">
+      </label>
+
+      <span class="hint" style="display:block;margin-bottom:9px;font-weight:650;">題型</span>
+      <div class="types" id="types">
+        <label class="type-opt">
+          <input type="radio" name="type" value="word" checked>
+          <span class="em">☁️</span>
+          <span><b>文字雲</b><small>短詞，字越大越多</small></span>
+        </label>
+        <label class="type-opt">
+          <input type="radio" name="type" value="choice">
+          <span class="em">📊</span>
+          <span><b>選擇題</b><small>2–8 個選項</small></span>
+        </label>
+        <label class="type-opt">
+          <input type="radio" name="type" value="open">
+          <span class="em">💬</span>
+          <span><b>開放回答</b><small>一句話／想法</small></span>
+        </label>
+        <label class="type-opt">
+          <input type="radio" name="type" value="rating">
+          <span class="em">⭐</span>
+          <span><b>五星評分</b><small>1–5 分平均</small></span>
+        </label>
+      </div>
+
+      <div id="optionsBlock" hidden>
+        <span class="hint" style="display:block;margin-bottom:9px;font-weight:650;">選項</span>
+        <div class="opt-rows" id="optRows"></div>
+        <button class="btn small ghost" id="addOpt" type="button" style="margin-bottom:16px;">＋ 新增選項</button>
+      </div>
+
+      <div class="toggle-row">
+        <p>需要填寫名字<small>關閉則完全匿名</small></p>
+        <label class="switch"><input type="checkbox" id="nameReq"><i></i></label>
+      </div>
+      <div class="toggle-row" style="margin-bottom:18px;">
+        <p>讓觀眾看到即時結果<small>投影時通常保持開啟</small></p>
+        <label class="switch"><input type="checkbox" id="showRes" checked><i></i></label>
+      </div>
+
+      <button class="btn primary" id="create" style="width:100%;padding:15px;">建立投票並取得 QR code</button>
+
+      <div class="join-strip" id="join">
+        <input class="input" id="joinCode" maxlength="10" placeholder="輸入代碼加入" autocomplete="off">
+        <button class="btn" id="joinBtn" type="button">加入</button>
+      </div>
+      <div id="recent" class="hint" style="margin-top:12px;"></div>
+    </section>
+  </main>
+</div>
+
+<script src="assets/core.js"></script>
+<script src="assets/create.js"></script>
+</body>
+</html>

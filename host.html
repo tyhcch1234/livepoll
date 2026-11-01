@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LivePoll · 投影畫面</title>
+<meta name="description" content="投影用大螢幕：顯示 QR code 與即時回應。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%237c5cff'/%3E%3Cpath d='M9 20l4.5-9L18 20l5-10' stroke='%23fff' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="host">
+  <header class="host-top">
+    <a class="brand" href="index.html"><span class="dot">▮</span>LivePoll <small>即時互動投票</small></a>
+    <div class="right">
+      <span class="status" id="status"><i></i><em>連線中…</em></span>
+      <button class="btn small" id="btnResults" type="button">隱藏觀眾結果</button>
+      <button class="btn small" id="btnCsv" type="button">匯出 CSV</button>
+      <button class="btn small" id="btnClear" type="button">清除回應</button>
+      <button class="btn small" id="btnFull" type="button">全螢幕</button>
+      <a class="btn small ghost" href="index.html">新投票</a>
+    </div>
+  </header>
+
+  <div class="host-grid">
+    <aside class="side">
+      <div class="card qr-card">
+        <div class="qrbox" id="qrbox" title="點擊放大">
+          <svg id="qr" xmlns="http://www.w3.org/2000/svg"></svg>
+        </div>
+        <p class="join-url" id="joinUrl"></p>
+        <div class="code-box">
+          <span>加入代碼</span>
+          <strong id="codeText">------</strong>
+        </div>
+      </div>
+      <div class="card stat-card">
+        <div>
+          <div class="num" id="count">0</div>
+          <div class="lbl">已收到的回應</div>
+        </div>
+        <span class="status live" id="liveTag"><i></i><em>即時</em></span>
+      </div>
+    </aside>
+
+    <main class="stage">
+      <div class="stage-head">
+        <h1 id="question">載入中…</h1>
+        <span class="tag" id="typeTag">即時投票</span>
+      </div>
+      <div class="results" id="results"></div>
+    </main>
+  </div>
+
+  <footer class="host-foot">
+    <span>掃描 QR code，或在手機打開 <b id="footUrl">—</b> 輸入代碼回答</span>
+    <span id="note">主持畫面 · 不要關閉這個分頁</span>
+  </footer>
+</div>
+
+<script src="assets/vendor/mqtt.min.js"></script>
+<script src="assets/vendor/qrcode.js"></script>
+<script src="assets/core.js"></script>
+<script src="assets/net.js"></script>
+<script src="assets/host.js"></script>
+</body>
+</html>

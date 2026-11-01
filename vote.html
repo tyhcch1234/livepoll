@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>回答 · LivePoll</title>
+<meta name="description" content="掃碼進來的回答頁面。">
+<meta name="theme-color" content="#070b16">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%237c5cff'/%3E%3Cpath d='M9 20l4.5-9L18 20l5-10' stroke='%23fff' stroke-width='3' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="vote">
+  <header class="vote-top">
+    <a class="brand" href="index.html"><span class="dot">▮</span>LivePoll</a>
+    <span class="status" id="status"><i></i><em>連線中…</em></span>
+  </header>
+
+  <div class="card vote-card" id="card">
+    <div id="loading" style="text-align:center;padding:26px 0;">
+      <div class="spinner"></div>
+      <p class="hint" style="margin:0;">正在連接投票…</p>
+    </div>
+
+    <div id="body" hidden>
+      <h1 class="vote-q" id="question"></h1>
+      <p class="vote-meta" id="meta"></p>
+
+      <div id="form">
+        <label class="field" id="nameField">
+          <span id="nameLabel">你的名字（選填）</span>
+          <input class="input" id="name" maxlength="24" autocomplete="name" placeholder="讓主持人認得你">
+        </label>
+
+        <div id="answerArea"></div>
+
+        <button class="btn primary" id="submit" type="button" style="width:100%;padding:15px;margin-top:14px;">送出答案</button>
+        <p class="hint" id="formHint" style="text-align:center;margin:10px 0 0;"></p>
+      </div>
+
+      <div id="done" class="done" hidden>
+        <div class="check">✓</div>
+        <h2>已送出，謝謝！</h2>
+        <p class="mine" id="mine"></p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button class="btn small" id="edit" type="button">修改答案</button>
+          <span class="pill" id="ppl">已有 0 人回應</span>
+        </div>
+      </div>
+
+      <div class="mini" id="mini" hidden>
+        <h3>即時結果</h3>
+        <div id="miniBody"></div>
+      </div>
+    </div>
+
+    <div id="error" hidden style="text-align:center;padding:20px 0;">
+      <p style="font-size:34px;margin:0 0 6px;">🔍</p>
+      <h2 style="margin:0 0 6px;font-size:19px;">找不到這場投票</h2>
+      <p class="hint" id="errText" style="margin:0 0 16px;">請確認代碼是否正確，或請主持人重新投影 QR code。</p>
+      <a class="btn primary" href="index.html">回首頁</a>
+    </div>
+  </div>
+
+  <footer class="vote-foot">
+    <span id="foot">即時互動投票 · 你的答案會即時出現在大螢幕上</span>
+  </footer>
+</div>
+
+<script src="assets/vendor/mqtt.min.js"></script>
+<script src="assets/core.js"></script>
+<script src="assets/net.js"></script>
+<script src="assets/vote.js"></script>
+</body>
+</html>
