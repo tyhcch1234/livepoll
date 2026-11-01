@@ -42,6 +42,12 @@
   joinUrlEl.textContent = joinURL.replace(/^https?:\/\//, '');
   footUrlEl.textContent = baseURL.replace(/^https?:\/\//, '');
   try { N.renderQR(qrSvg, joinURL); } catch (e) { console.warn('QR failed', e); }
+  joinUrlEl.title = '點擊複製連結';
+  joinUrlEl.style.cursor = 'pointer';
+  joinUrlEl.addEventListener('click', function () { N.copy(joinURL); });
+  codeText.title = '點擊複製加入代碼';
+  codeText.style.cursor = 'pointer';
+  codeText.addEventListener('click', function () { N.copy(code); });
 
   /* ---------- transport ---------- */
   const client = N.createClient('host');
@@ -305,7 +311,7 @@
         skel.map.set(w.word.toLowerCase(), span);
       }
       const ratio = w.count / agg.maxWord;
-      span.style.fontSize = (1.05 + ratio * 3.3).toFixed(2) + 'rem';
+      span.style.fontSize = (1.3 + ratio * 4.8).toFixed(2) + 'rem';
       span.style.color = ratio > 0.66 ? '#ffffff' : N.colorFor(w.word);
       span.style.opacity = String(0.55 + ratio * 0.45);
       span.title = w.count + ' 次';

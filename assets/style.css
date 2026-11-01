@@ -272,7 +272,8 @@ button, input, textarea, select {
 .stat-card .num { font-size: 30px; font-weight: 800; letter-spacing: -0.03em; }
 .stat-card .lbl { font-size: 12px; color: var(--muted); }
 
-.stage { min-height: 40vh; }
+.stage { min-height: 40vh; display: flex; flex-direction: column; }
+.stage .results { flex: 1; display: flex; flex-direction: column; justify-content: center; }
 .stage-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .stage-head h1 {
   margin: 0; font-size: clamp(24px, 3.4vw, 44px); line-height: 1.16;
@@ -318,9 +319,10 @@ button, input, textarea, select {
 /* word cloud */
 .cloud {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
-  gap: 10px clamp(10px, 1.6vw, 22px);
+  gap: 10px clamp(12px, 2vw, 30px);
   padding: clamp(14px, 3vw, 34px);
   min-height: 34vh;
+  flex: 1;
 }
 .cloud span {
   font-weight: 750;
