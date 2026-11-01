@@ -57,17 +57,21 @@
   let publishTimer = null;
 
   client.on('connect', function () {
-    N.setStatus(statusEl, 'live', '已連線 · 即時同步');
-    client.subscribe(T.resp, { qos: 1 });
-    client.subscribe(T.state, { qos: 1 });
-    setTimeout(function () {
-      if (!adopted) {
-        adopted = true;
-        flushPending();
-        publishState();
-        render();
-      }
-    }, 1400);
+    // Stay "connecting" until the broker confirms the subscriptions (SUBACK);
+    // otherwise a vote arriving in that gap would be silently dropped.
+    N.setStatus(statusEl, null, '同步中…');
+    client.subscribe([T.resp, T.state], { qos: 1 }, function (err) {
+      if (err) { N.setStatus(statusEl, 'off', '訂閱失敗，重試中…'); return; }
+      N.setStatus(statusEl, 'live', '已連線 · 即時同步');
+      setTimeout(function () {
+        if (!adopted) {
+          adopted = true;
+          flushPending();
+          publishState();
+          render();
+        }
+      }, 1200);
+    });
   });
   client.on('reconnect', function () { N.setStatus(statusEl, null, '重新連線中…'); });
   client.on('close', function () { N.setStatus(statusEl, 'off', '已離線'); });
@@ -157,7 +161,7 @@
     box.className = 'empty';
     const icon = document.createElement('div');
     icon.className = 'big';
-    icon.textContent = '💬';
+    icon.innerHTML = '<svg viewBox="0 0 20 20" width="40" height="40" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M3.5 4.5h13v8h-7.2L5 16v-3.5H3.5z"/></svg>';
     const b = document.createElement('b');
     b.textContent = text;
     const p = document.createElement('div');

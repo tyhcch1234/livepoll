@@ -17,6 +17,9 @@
 
 * { box-sizing: border-box; }
 
+/* Utility classes below set display, which would otherwise defeat [hidden]. */
+[hidden] { display: none !important; }
+
 html, body { height: 100%; }
 
 body {
@@ -161,7 +164,17 @@ button, input, textarea, select {
 .feats { display: grid; gap: 10px; margin: 26px 0 0; padding: 0; list-style: none; }
 .feats li { display: flex; gap: 10px; color: var(--muted); font-size: 14px; }
 .feats li b { color: var(--txt); font-weight: 650; }
-.feats li span.ico { flex: 0 0 auto; }
+.feats li span.ico { flex: 0 0 auto; display: grid; place-items: center; width: 22px; height: 22px; }
+.feats li span.ico svg,
+.type-opt .em svg {
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.feats li span.ico { color: var(--cyan); }
 
 .builder { padding: 24px; }
 .builder h2 { margin: 0 0 4px; font-size: 18px; }
@@ -180,7 +193,7 @@ button, input, textarea, select {
 }
 .type-opt:hover { background: rgba(255, 255, 255, 0.07); }
 .type-opt input { position: absolute; opacity: 0; pointer-events: none; }
-.type-opt .em { font-size: 20px; }
+.type-opt .em { flex: 0 0 auto; width: 26px; height: 26px; display: grid; place-items: center; }
 .type-opt b { display: block; font-size: 13.5px; }
 .type-opt small { color: var(--muted); font-size: 11.5px; }
 .type-opt:has(input:checked) {

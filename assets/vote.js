@@ -48,6 +48,8 @@
   let editing = false;
   let optimisticUntil = 0;
   let lastSubmit = 0;
+  let mySubmitTs = 0;
+  let revertTimer = null;
   let builtType = null;
   let timeoutHit = false;
 
@@ -56,8 +58,11 @@
   /* ---------- connection ---------- */
   const client = N.createClient('vote');
   client.on('connect', function () {
-    N.setStatus(statusEl, 'live', '已連線');
-    client.subscribe(T.state, { qos: 1 });
+    N.setStatus(statusEl, null, '同步中…');
+    client.subscribe(T.state, { qos: 1 }, function (err) {
+      if (err) { N.setStatus(statusEl, 'off', '訂閱失敗，重試中…'); return; }
+      N.setStatus(statusEl, 'live', '已連線');
+    });
   });
   client.on('reconnect', function () { N.setStatus(statusEl, null, '重新連線中…'); });
   client.on('close', function () { N.setStatus(statusEl, 'off', '已離線'); });
@@ -71,6 +76,21 @@
     const nextPoll = C.normalizePoll(remote.poll);
     if (nextPoll) poll = nextPoll;
     items = Array.isArray(remote.items) ? remote.items : [];
+    // If the host's newer snapshot does not contain my answer (cleared session),
+    // drop the optimistic "submitted" state instead of showing it forever.
+    if (items.some(function (i) { return i.id === myId; })) {
+      clearTimeout(revertTimer);
+      revertTimer = null;
+    } else if ((remote.updatedAt || 0) > mySubmitTs && !revertTimer) {
+      revertTimer = setTimeout(function () {
+        revertTimer = null;
+        if (!items.some(function (i) { return i.id === myId; })) {
+          optimisticUntil = 0;
+          editing = false;
+          render();
+        }
+      }, 1500);
+    }
     render();
   });
 
@@ -335,6 +355,7 @@
 
     client.publish(T.resp, JSON.stringify(rec), { qos: 1 });
     lastSubmit = Date.now();
+    mySubmitTs = Date.now();
     optimisticUntil = Date.now() + 9000;
     editing = false;
     // reflect locally right away, host state will confirm shortly
